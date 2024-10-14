@@ -1,8 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 import requests
 
 from .models import UserProfile, Location, UserInformation
 
+
+def get_users_by_gender(request, gender):
+    #Usando a ORM do Django pego as informações apenas iguais ao genero que será designado na URL
+    users = UserInformation.objects.filter(user_profile__gender=gender).select_related('user_profile', 'location')
+    
+    #Converte os dados em um dicionario python pra poder converter em JSON usando JsonResponse
+    data = [user.as_dict() for user in users]
+    
+    #Retorna os dados em formato JSON para quem acessa a url
+    return JsonResponse(data, safe=False)
+
+def get_users_by_age(request, age):
+    users = UserInformation.objects.filter(age=age).select_related('user_profile', 'location')
+    
+    data = [user.as_dict() for user in users]
+    
+    return JsonResponse(data, safe=False)
 
 def principal(request):
     return render(request, 'home.html')
@@ -14,7 +32,6 @@ def listar_todos(request):
     context = {'usuarios': [user.as_dict() for user in todos_objetos]}
     
     return render(request, 'lista_todos.html', context)
-    
 
 #Criar uma view baseada em função que recebe um request
 #quando é acessada a rota localhost:8000/povoardb

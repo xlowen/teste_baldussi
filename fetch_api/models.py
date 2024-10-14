@@ -1,5 +1,10 @@
 from django.db import models
 
+#Optei por armazenar dados relevantes para o teste.
+#Por questão de segurança, os dados sensíveis que retornam da api randomuser não foram persistidos
+#A api envia senha em texto plano, o salt e os hashs das senhas (md5, sha1, sha256) - não salvos.
+
+
 class UserProfile(models.Model):
     gender = models.CharField(max_length=15)
     title = models.CharField(max_length=10)

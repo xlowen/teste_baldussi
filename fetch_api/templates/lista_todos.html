@@ -13,7 +13,16 @@
     <h1>DADOS DA API</h1>
     <ul>
         {% for usuario in usuarios %}
-            <li>gender: {{ usuario }}</li>
+        <div style ="width: 60%" class="">
+            <li>Nome: {{usuario.user_profile.title}} {{usuario.user_profile.first_name}} {{usuario.user_profile.last_name}}</li>
+            <li>Gênero: {{usuario.user_profile.gender}}</li>
+            <li>E-mail: {{usuario.user_profile.email}}</li>
+            <li>Endereco: {{usuario.location.street_name}} {{usuario.location.street_number}}</li>
+            <li>País: {{usuario.location.country}}</li>
+            <li>Telefone: {{usuario.phone}}</li>
+            <li>Idade: {{usuario.age}}</li>
+            <br><br>
+        </div>           
 
         {% endfor %}
     </ul>
