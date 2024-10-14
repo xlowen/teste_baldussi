@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home projeto api</title>
-</head>
-<body>
-    <h1>Oi mundo!</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card w-50 mt-5">
+    <div class="card-header text-center">
+      Teste api REST - Amilton Siqueira
+    </div>
+    <div class="card-body ">
+        <h5 class="card-title">Seguindo as especificações enviadas:</h5>
+        <p class="card-text">Instruções:</p>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Construir sua aplicação em Python.</li>
+        <li class="list-group-item">Realizar a consulta na API Random User Generator https://randomuser.me/</li>
+        <li class="list-group-item">Obter 100 requests.</li>
+        <li class="list-group-item">Modelar um DB Relacional (dê sua preferência) para armazenar os dados da consulta.</li>
+        <li class="list-group-item">Desenvolver 3 endpoints usando o framework dê sua preferência, sendo eles: 
+
+                <div class="ms-2 me-auto">
+                <ul>
+                    <li>Get by gender</li>
+                    <li>Get by age: retornar apenas usuários com 35 anos.   </li>
+                    <li>Post gender and age: retornar usuário masculino e com 30 anos.</li>
+                    <li>Publicar no Github</li>
+                </ul>
+                </div>
+
+        </li>
+        <ul>
+
+        </ul>
+    </ol>
+      <a href="#" class="btn btn-primary mt-2">Documentação</a>
+    </div>
+  </div>
+
+{% endblock %}

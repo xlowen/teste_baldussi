@@ -6,6 +6,13 @@ from .models import UserProfile, Location, UserInformation
 
 
 def get_users_by_gender(request, gender):
+    #conversão pois a api enviou dados em inglês.
+    match gender:
+        case "homem":
+            gender = "male"
+        case "mulher":
+            gender = "female"
+            
     #Usando a ORM do Django pego as informações apenas iguais ao genero que será designado na URL
     users = UserInformation.objects.filter(user_profile__gender=gender).select_related('user_profile', 'location')
     
@@ -21,6 +28,32 @@ def get_users_by_age(request, age):
     data = [user.as_dict() for user in users]
     
     return JsonResponse(data, safe=False)
+
+
+#A rest API do django só permite post requests que venham com um CSRF_token por questões de segurança.
+#Quem acessar essa api via post precisará enviar um csrf_token junto aos headers do post request
+#Para testar o request criei um form em html que envia os parâmetros determinados na especificação do teste.
+def post_male_users_age_30(request):
+    if request.method == 'POST':
+        gender = request.POST.get('genero')
+        age = request.POST.get('idade')
+        
+        #conversão pois a api enviou dados em inglês.
+        match gender:
+            case "homem":
+                gender = "male"
+            case "mulher":
+                gender = "female"
+                
+        users = UserInformation.objects.filter(user_profile__gender=gender, age=age).select_related('user_profile', 'location')
+        
+        data = [user.as_dict() for user in users]
+        
+        return JsonResponse(data, safe=False)
+    else:
+        return render(request, 'post_teste.html')
+        # return JsonResponse({'error': f'Método de request inválido {request.method}'}, status=400)
+    
 
 def principal(request):
     return render(request, 'home.html')
