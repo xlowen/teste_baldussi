@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Baldussi</title>
+</head>
+<body>
+
+<div style="width: 80%;">
+
+    {% if usuarios %}
+    <h1>DADOS DA API</h1>
+    <ul>
+        {% for usuario in usuarios %}
+            <li>gender: {{ usuario }}</li>
+
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Erro: {{ erro }};
+        </p>
+    {% endif %}
+</div>
+</body>
+</html>
