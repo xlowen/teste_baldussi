@@ -4,17 +4,21 @@ from django.db import models
 #Por questão de segurança, os dados sensíveis que retornam da api randomuser não foram persistidos
 #A api envia senha em texto plano, o salt e os hashs das senhas (md5, sha1, sha256) - não salvos.
 
+#mantive os nomes em inglês no modelo em conformidade com a api consumida.
+#não fiz relações um para muitos com FKs porque cada usuario persistido contém um endereço já em seu objeto.
+#se houver interesse em um cadastro de endereços unicos para relacionar com mais de um usuario, é possível alterar.
 
 class UserProfile(models.Model):
     gender = models.CharField(max_length=15)
     title = models.CharField(max_length=10)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True) #não permitir e-mails iguais.
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
+    #funcao para retornar um dicionario python para a manipulacao dos dados
     def as_dict(self):
         return {
             'gender': self.gender,
@@ -31,7 +35,7 @@ class Location(models.Model):
     state = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
     postcode = models.CharField(max_length=25)
-    latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6) #adicionei pois achei interessante usar DecimalField com decimal_places
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
 
     def __str__(self):
@@ -50,8 +54,8 @@ class Location(models.Model):
         }
     
 class UserInformation(models.Model):
-    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE) #relacao um para um com UserProfile
+    location = models.OneToOneField(Location, on_delete=models.CASCADE) #relacao um para um com Location
     phone = models.CharField(max_length=20)
     cell = models.CharField(max_length=20, blank=True)  #Celular pode ser opcional
     age = models.CharField(max_length=3)

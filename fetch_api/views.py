@@ -11,7 +11,6 @@ def get_users_by_gender(request, gender):
     #validação do gênero.
     if gender not in GENEROS_VALIDOS:
         data = {'Erro': f'Acesso incorreto da api com /usuarios/genero/{gender}/. Use homem, mulher, male ou female.'}
-    
     else:        
         #Usando a ORM do Django pego as informações apenas iguais ao genero que será designado na URL
         users = UserInformation.objects.filter(user_profile__gender=gender).select_related('user_profile', 'location')
@@ -25,13 +24,19 @@ def get_users_by_gender(request, gender):
 def get_users_by_age(request, age):
     
     if not age:
-        data = {'Erro': f'Acesso incorreto da api com /usuarios/idade/{age}/. é necessário utilizar um numero.'}
-        
+        data = {'Erro': f'Acesso incorreto da api com /usuarios/idade/{age}/. necessario utilizar um numero inteiro maior que 0.'}
+        return JsonResponse(data, safe=False, status=400)
+     
     users = UserInformation.objects.filter(age=age).select_related('user_profile', 'location')
-    
     data = [user.as_dict() for user in users]
     
-    return JsonResponse(data, safe=False)
+    if not data:
+        data= {'Inexistente': f'Nao existe usuario com a idade: {age}.'}
+        return JsonResponse(data, safe=False, status=404)
+    
+    
+    
+    return JsonResponse(data, safe=False, status=200)
 
 
 #A rest API do django só permite post requests que venham com um CSRF_token por questões de segurança.
@@ -51,7 +56,8 @@ def post_male_users_age_30(request):
         elif gender not in GENEROS_VALIDOS:
             data = {'Erro': f"Acesso incorreto da api com request body  '{gender}/{age}'. Use homem, mulher, male ou female, e um numero para idade."}
             
-        else:    
+        else:
+            #método filter() para definir a query por genero e idade (gender, age)    
             users = UserInformation.objects.filter(user_profile__gender=gender, age=age).select_related('user_profile', 'location')
             data = [user.as_dict() for user in users]
             if not data:
@@ -75,7 +81,7 @@ def listar_todos(request):
     
     return render(request, 'lista_todos.html', context)
 
-#Criar uma view baseada em função que recebe um request
+#Criar uma view baseada em função que envia um request
 #quando é acessada a rota localhost:8000/povoardb
 def fetch_api_users(request):
     BASE_URL = "https://randomuser.me/api/"
@@ -83,12 +89,11 @@ def fetch_api_users(request):
     #usar os parâmetros de query da própria api para retornar 100 resultados
     response = requests.get(BASE_URL + "?results=100")
     
-    if response.status_code == 200:
-        
+    if response.status_code == 200:        
         #converte o json recebido da api em um dict
         data = response.json()
         
-        #povoar o banco de dados com os dados recebidos acessando meus modelos
+        #povoa o banco de dados com os dados recebidos acessando os modelos
         for result in data['results']:
             
             #como e-mail está marcado como unique no modelo, e id é not null, estou pulando inserções no DB que:
@@ -96,12 +101,14 @@ def fetch_api_users(request):
             if result['id']['value'] is None:
                 print('Pulando objeto: id_number é nulo')
                 continue
+            
             #pulando inserções que conflite com algum ID o e-mail já existente.
-        
             if UserInformation.objects.filter(id_number=result['id']['value']) or \
             UserProfile.objects.filter(email=result['email']).exists():
                 
                 print('E-mail ou ID conflitantes')
+            
+            #Deixei comentado pois só utilizei o código para povoar o BD
                 
             #Se a validação passar, insere os dados no DB
             # else:
