@@ -94,6 +94,12 @@ exemplo request body:
 ### home
 ![alt text](image-4.png)
 
+### teste get request idade
+![alt text](image-12.png)
+
+### teste get request genero
+
+
 ### teste POST REQUEST
 
 ![botão de teste de post](image-5.png)  
