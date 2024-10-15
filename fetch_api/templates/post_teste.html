@@ -3,7 +3,7 @@
 {% block content %}
 <form method="post" action="/usuarios/">
     {% csrf_token %}
-    <input type="hidden" name="idade" value="15">
+    <input type="hidden" name="idade" value="30">
     <input type="hidden" name="genero" value="HOMEM">
     <button class="btn btn-lg btn-primary mt-5" type="submit">Ao clicar neste botão serão submetidos no request body 'idade':'30', 'genero':'male'</button>
 </form>
