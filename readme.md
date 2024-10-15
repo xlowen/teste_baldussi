@@ -98,7 +98,7 @@ exemplo request body:
 ![alt text](image-12.png)
 
 ### teste get request genero
-
+![alt text](image-13.png)
 
 ### teste POST REQUEST
 
