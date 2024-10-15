@@ -1,10 +1,10 @@
 <!-- form só para teste do post request pois inclui o token csrf -->
 {% extends 'base.html' %}
 {% block content %}
-<form method="post" action="/usuarios/homem/30/">
+<form method="post" action="/usuarios/">
     {% csrf_token %}
-    <input type="hidden" name="idade" value="30">
+    <input type="hidden" name="idade" value="31">
     <input type="hidden" name="genero" value="male">
-    <button type="submit">Enviar</button>
+    <button class="btn btn-lg btn-primary mt-5" type="submit">Ao clicar neste botão serão submetidos no request body 'idade':'30', 'genero':'male'</button>
 </form>
 {% endblock %}

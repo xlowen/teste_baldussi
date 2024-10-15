@@ -6,23 +6,27 @@ from .models import UserProfile, Location, UserInformation
 
 
 def get_users_by_gender(request, gender):
-    #conversão pois a api enviou dados em inglês.
-    match gender:
-        case "homem":
-            gender = "male"
-        case "mulher":
-            gender = "female"
-            
-    #Usando a ORM do Django pego as informações apenas iguais ao genero que será designado na URL
-    users = UserInformation.objects.filter(user_profile__gender=gender).select_related('user_profile', 'location')
+    GENEROS_VALIDOS =['male', 'female', 'homem', 'mulher']
     
-    #Converte os dados em um dicionario python pra poder converter em JSON usando JsonResponse
-    data = [user.as_dict() for user in users]
+    #validação do gênero.
+    if gender not in GENEROS_VALIDOS:
+        data = {'Erro': f'Acesso incorreto da api com /usuarios/genero/{gender}/. Use homem, mulher, male ou female.'}
+    
+    else:        
+        #Usando a ORM do Django pego as informações apenas iguais ao genero que será designado na URL
+        users = UserInformation.objects.filter(user_profile__gender=gender).select_related('user_profile', 'location')
+
+        #Converte os dados em um dicionario python pra poder converter em JSON usando JsonResponse
+        data = [user.as_dict() for user in users]
     
     #Retorna os dados em formato JSON para quem acessa a url
     return JsonResponse(data, safe=False)
 
 def get_users_by_age(request, age):
+    
+    if not age:
+        data = {'Erro': f'Acesso incorreto da api com /usuarios/idade/{age}/. é necessário utilizar um numero.'}
+        
     users = UserInformation.objects.filter(age=age).select_related('user_profile', 'location')
     
     data = [user.as_dict() for user in users]
@@ -38,23 +42,28 @@ def post_male_users_age_30(request):
         gender = request.POST.get('genero')
         age = request.POST.get('idade')
         
-        #conversão pois a api enviou dados em inglês.
-        match gender:
-            case "homem":
-                gender = "male"
-            case "mulher":
-                gender = "female"
-                
-        users = UserInformation.objects.filter(user_profile__gender=gender, age=age).select_related('user_profile', 'location')
+        #validação do request body
+        GENEROS_VALIDOS =['male', 'female', 'homem', 'mulher']
         
-        data = [user.as_dict() for user in users]
+        if not gender or not age:
+            data = {'Erro': f"Acesso incorreto da api com request body vazio -> 'genero':{gender}?'idade':{age}?'"}
+            
+        elif gender not in GENEROS_VALIDOS:
+            data = {'Erro': f"Acesso incorreto da api com request body  '{gender}/{age}'. Use homem, mulher, male ou female, e um numero para idade."}
+            
+        else:    
+            users = UserInformation.objects.filter(user_profile__gender=gender, age=age).select_related('user_profile', 'location')
+            data = [user.as_dict() for user in users]
+            if not data:
+                data = {'Erro': f"Nenhum usuario encontrado com estes parametros -> 'genero':'{gender}', 'idade':'{age}'"}
         
         return JsonResponse(data, safe=False)
     else:
         return render(request, 'post_teste.html')
-        # return JsonResponse({'error': f'Método de request inválido {request.method}'}, status=400)
     
-
+def docs(request):
+    return render(request, 'docs.html')
+    
 def principal(request):
     return render(request, 'home.html')
 

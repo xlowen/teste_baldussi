@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card w-50 m-5">
+    <div class="card-header text-center">
+      Teste api REST - Amilton Siqueira
+    </div>
+    <div class="card-body ">
+        <h5 class="card-title text-center">Documentação:</h5>
+        <p class="card-text fw-bold">Introdução:</p>
+        <p class="card-text">Essa api foi desenvolvida com o intuito de fornecer ao usuário acesso
+            a dados de usuários via requests http GET e POST, seguindo as especificações encontradas <a href="{% url 'home' %}">aqui.</a></p>
+            <div class="card" style="width: 30rem;">
+                <div class="card-header">
+                  Endpoints
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><span class="fw-bold text-primary" >GET</span> usuarios/genero/<span class="text-danger" >genero</span>/</li>
+                  <p class="m-2">Neste endpoint deve ser substituido <span class="text-danger" >genero</span> por male, female, homem, mulher.
+                O resultado retornará todos os usuários deste gênero.</p>
+                <p class="m-2 fw-semibold">exemplo: www.dominio.com.br/usuarios/genero/<span class="text-danger" >mulher</span></p>
+                </ul>
+            </div>
+            <div class="card  mt-3" style="width: 30rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><span class="fw-bold text-primary" >GET</span> usuarios/idade/<span class="text-danger" >idade</span>/</li>
+                  <p class="m-2">Neste endpoint deve ser substituido <span class="text-danger" >idade</span> pelo numero da idade
+                o resultado retornará todos os usuários desta idade.</p>
+                <p class="m-2 fw-semibold">exemplo: www.dominio.com.br/usuarios/idade/<span class="text-danger" >28</span></p>
+                </ul>
+              </div>
+            <div class="card  mt-3" style="width: 30rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><span class="fw-bold text-success" >POST</span> /usuarios/</li>
+                  <p class="m-2">Este endpoint, quando acessado via <span class="fw-bold text-success" >POST</span> contendo no body 'idade': '<span class="text-danger" >idade</span>'
+                    e 'genero': '<span class="text-danger" >genero</span>' retornará todos os usuários desta que possuam esta idade e genêro.
+                </p>
+                  <p class="m-2"><span class="text-danger" >genero</span> pode ser substituido por homem, mulher, male, female.</p>
+                  <p class="m-2">Neste projeto existe um arquivo .html com um formulário para especificamente fazer um post request com valores 'idade':'30', 'genero':'male'.</p>
+                  <p class="m-2 fw-semibold">Isso porque o framework Django exige a existência de um token CSRF válido nos headers do request http POST, se não houver retornará status 403 Forbidden.</p>
+                <p class="m-2 fw-semibold">exemplo request body: <pre class="m-2">{ 'idade': '21', 'genero': 'mulher' }</pre></p>
+                </ul>
+                </div>
+                <div class="card mt-3" style="width: 30rem;">
+                    <div class="card-header fw-bold">
+                      Nota sobre os dados
+                      </div>
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><span class="fw-bold text-danger" >Não foram armazenados dados sensíveis como senhas em formato plain text, salts ou hashes.</li>
+                        </ul>
+                      </div>
+                      <div class="card mt-3" style="width: 45rem;">
+                      <div class="card-header fw-bold">
+                        Formato retornado pela api:
+                        </div>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <pre class="text-left">
+{
+"user_profile": {
+    "gender": "male",
+    "title": "Mr",
+    "first_name": "Krish",
+    "last_name": "Chiplunkar",
+    "email": "krish.chiplunkar@example.com"
+},
+"location": {
+    "street_number": 9186,
+    "street_name": "Racecource Rd",
+    "city": "Ongole",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "postcode": "87611",
+    "latitude": "-47.941800",
+    "longitude": "96.064200"
+},
+"phone": "7650787171",
+"cell": "8594056220",
+"age": "28",
+"id_number": "478579824528",
+"picture_large": "https://randomuser.me/api/portraits/men/37.jpg",
+"picture_medium": "https://randomuser.me/api/portraits/med/men/37.jpg",
+"picture_thumbnail": "https://randomuser.me/api/portraits/thumb/men/37.jpg",
+"nat": "IN"
+}</pre></li>
+                          </ul>
+                        </div>
+
+            
+      <a href="{% url 'home' %}" class="btn btn-primary mt-2">Voltar</a>
+    </div>
+  </div>
+
+{% endblock %}
