@@ -84,25 +84,25 @@ exemplo request body:
     }
 
 ### documentação
-    ![alt text](image.png)  
-    ![alt text](image-1.png)  
-    ![alt text](image-2.png)  
+![alt text](image.png)  
+![alt text](image-1.png)  
+![alt text](image-2.png)  
 
 ### listar todos os objetos
-    ![alt text](image-3.png)  
+![alt text](image-3.png)  
 
 ### home
-    ![alt text](image-4.png)
+![alt text](image-4.png)
 
 ### teste POST REQUEST
 
-    ![botão de teste de post](image-5.png)  
-    ![html que envia os dados via post](image-6.png)  
-    ![resultado do teste](image-7.png)
+![botão de teste de post](image-5.png)  
+![html que envia os dados via post](image-6.png)  
+![resultado do teste](image-7.png)
 
 ### erros ao acessar os endpoints
 
-    ![nao usar genero correto](image-8.png)
-    ![usuario com idade que nao existe](image-9.png)
-    ![post request com idade e genero errado](image-10.png)
-    ![resultado post request incorreto](image-11.png)
+![nao usar genero correto](image-8.png)
+![usuario com idade que nao existe](image-9.png)
+![post request com idade e genero errado](image-10.png)
+![resultado post request incorreto](image-11.png)
